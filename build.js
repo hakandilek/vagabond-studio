@@ -1,19 +1,19 @@
 var fs = require('fs');
 var jison = require('jison');
 
-var nomnomlParser = new jison.Parser(fs.readFileSync('nomnoml.jison', { encoding: 'utf8' }));
-fs.writeFileSync('nomnoml.jison.js', nomnomlParser.generate({moduleName: 'nomnomlCoreParser'}));
+var nomnomlParser = new jison.Parser(fs.readFileSync('nomnoml/nomnoml.jison', { encoding: 'utf8' }));
+fs.writeFileSync('nomnoml/nomnoml.jison.js', nomnomlParser.generate({moduleName: 'nomnomlCoreParser'}));
 
 var nomnomlFiles = [
     'lib/dagre.min.js',
-    'skanaar.canvas.js',
-    'skanaar.util.js',
-    'skanaar.vector.js',
-    'nomnoml.jison.js',
-    'nomnoml.parser.js',
-    'nomnoml.layouter.js',
-    'nomnoml.renderer.js',
-    'nomnoml.js'
+    'nomnoml/skanaar.canvas.js',
+    'nomnoml/skanaar.util.js',
+    'nomnoml/skanaar.vector.js',
+    'nomnoml/nomnoml.jison.js',
+    'nomnoml/nomnoml.parser.js',
+    'nomnoml/nomnoml.layouter.js',
+    'nomnoml/nomnoml.renderer.js',
+    'nomnoml/nomnoml.js'
 ];
 
 function concat(files){
