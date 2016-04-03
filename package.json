@@ -7,9 +7,12 @@
   "author": "Deepu KS <d4udts@gmail.com>",
   "license": "MIT",
   "keywords": [
-    "uml", "jdl", "jhipster"
+    "uml",
+    "jdl",
+    "jhipster"
   ],
   "dependencies": {
+    "jison": "^0.4.17",
     "lodash": "~3.7.0"
   },
   "devDependencies": {
