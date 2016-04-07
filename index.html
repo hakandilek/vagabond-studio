@@ -243,121 +243,45 @@ relationship &lt;type&gt; {
 
 	<script type="text/vnd.jdl.class" id="defaultGraph">
 entity Department {
-  departmentId Long,
-  departmentName String required
+  Long departmentId
+  String departmentName required
 }
 
+@paginate(infinite-scroll)
 entity JobHistory {
-  startDate ZonedDateTime,
-  endDate ZonedDateTime,
-  language Language
+  ZonedDateTime startDate,
+  ZonedDateTime endDate
 }
 
-enum Language {
-    FRENCH, ENGLISH, SPANISH
-}
-
+@paginate(pagination) 
 entity Job {
-  jobId Long,
-  jobTitle String,
-  minSalary Long,
-  maxSalary Long
+  Long jobId
+  String jobTitle
+  Long minSalary
+  Long maxSalary
 }
 
 /**
  * The Employee entity.
  */
+@paginate(infinite-scroll)
+@dto(mapstruct)
 entity Employee {
-  employeeId Long,
+  Long employeeId
   /**
    * The firstname attribute.
    */
-  firstName String,
-  lastName String,
-  email String,
-  phoneNumber String,
-  hireDate ZonedDateTime,
-  salary Long,
-  commissionPct Long
+  String firstName
+  String lastName
+  String email
+  String phoneNumber
+  ZonedDateTime hireDate,
+  Long salary
+  Long commissionPct
 }
-
-entity Location {
-  locationId Long,
-  streetAddress String,
-  postalCode String,
-  city String,
-  stateProvince String
+service SampleManager {
+  Task assign(Employee employee, Task task)
 }
-
-entity Task {
-  taskId Long,
-  title String,
-  description String
-}
-
-entity Country {
-  countryId Long,
-  countryName String
-}
-
-entity Region {
-  regionId Long,
-  regionName String
-}
-
-relationship OneToOne {
-  JobHistory{department} to Department
-}
-
-relationship OneToOne {
-  JobHistory{job} to Job
-}
-
-relationship OneToOne {
-  JobHistory{employee} to Employee
-}
-
-relationship ManyToMany {
-  Job{task(title)} to Task{job}
-}
-
-relationship OneToOne {
-  Department{location} to Location
-}
-
-relationship OneToMany {
-  /**
-   * A relationship
-   */
-  Department{employee} to
-  /**
-   * Another side of the same relationship
-   */
-  Employee
-}
-
-relationship ManyToOne {
-  Employee{manager} to Employee
-}
-
-relationship OneToMany {
-  Employee{job} to Job
-}
-
-relationship OneToOne {
-  Location{country} to Country
-}
-
-relationship OneToOne {
-  Country{region} to Region
-}
-
-paginate JobHistory, Employee with infinite-scroll
-paginate Job with pagination
-
-dto Employee with mapstruct
-
-service Employee with serviceClass
 	</script>
 	<script>
 		(function (i, s, o, g, r, a, m) {
@@ -378,11 +302,12 @@ service Employee with serviceClass
 		ga('jdlTracker.send', 'pageview');
 
 	</script>
+  <script src="bower_components/requirejs/require.js">
 	<script src="lib/zepto.min.js"></script>
 	<script src="lib/lodash.min.js"></script>
 	<script src="lib/dagre.min.js"></script>
 	<script src="lib/jquery.magnific-popup.min.js"></script>
-	<script src="js/jdl.parser.js"></script>
+	<script src="js/vagParser.js"></script>
 	<script src="codemirror/codemirror-compressed.js"></script>
 	<script src="codemirror/show-hint.js"></script>
 	<script src="codemirror/jdl-hint.js"></script>

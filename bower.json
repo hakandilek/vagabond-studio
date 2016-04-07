@@ -14,9 +14,7 @@
   "dependencies": {
     "lodash": "~3.7.0",
     "font-awesome": "^4.5.0",
-    "magnific-popup": "^1.0.1"
-  },
-  "devDependencies": {
+    "magnific-popup": "^1.0.1",
     "requirejs": "~2.1.17"
   },
   "moduleType": [

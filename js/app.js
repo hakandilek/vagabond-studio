@@ -170,7 +170,7 @@ $(function (){
 
 		if(!f) {
 			alert("Failed to load file")
-		} else if (!f.type.match('text.*') && !f.name.endsWith('.jh')) {
+		} else if (!f.type.match('text.*') && !f.name.endsWith('.vag')) {
 			alert(f.name + " is not a valid JDL or text file.")
 		} else {
 			var r = new FileReader()
@@ -269,7 +269,7 @@ $(function (){
 	}
 
 	function setFilename(filename){
-		fileLink.download = filename + '.jh'
+		fileLink.download = filename + '.vag'
 		imgLink.download = filename + '.png'
 	}
 

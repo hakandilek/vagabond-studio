@@ -17,10 +17,11 @@
   },
   "devDependencies": {
     "browser-sync": "*",
+    "pegjs": "*",
     "gulp": "*"
   },
   "scripts": {
-    "prepublish": "node build.js",
+    "prepublish": "node build.js & pegjs js/grammar.txt js/vagGrammar.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "directories": {

@@ -26,7 +26,7 @@ nomnoml.parse = function (source){
 }
 
 nomnoml.intermediateParse = function (source){
-	return nomnoml.convertToNomnoml(JDLParser.parse(source));
+	return nomnoml.convertToNomnoml(VAGParser.parse(source));
 }
 
 nomnoml.convertToNomnoml = function(JDLObj){
