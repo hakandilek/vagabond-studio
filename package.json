@@ -17,8 +17,10 @@
   },
   "devDependencies": {
     "browser-sync": "*",
+    "expose-loader": "^0.7.1",
+    "gulp": "*",
     "pegjs": "*",
-    "gulp": "*"
+    "webpack-stream": "^3.1.0"
   },
   "scripts": {
     "prepublish": "node build.js & pegjs js/grammar.txt js/vagGrammar.js",

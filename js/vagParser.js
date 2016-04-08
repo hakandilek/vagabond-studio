@@ -1,1 +1,0 @@
-var VAGParser = VAGParser || require('./vagGrammar'); 

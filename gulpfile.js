@@ -2,7 +2,9 @@ var gulp = require("gulp"),
     browserSync = require('browser-sync').create(),
     reload      = browserSync.reload;
 
-gulp.task('serve', function () {
+var webpack = require('webpack-stream');
+
+gulp.task('serve', ['webpack'], function () {
 
     // Serve files from the root of this project
     browserSync.init({
@@ -20,4 +22,10 @@ gulp.task('serve', function () {
 
 gulp.task('default', function() {
     gulp.start('serve');
+});
+
+gulp.task("webpack", function() {
+return gulp.src('src/main.js')
+  .pipe(webpack( require('./webpack.config.js') ))
+  .pipe(gulp.dest('dist/'));
 });
