@@ -19,6 +19,7 @@
     "browser-sync": "*",
     "expose-loader": "^0.7.1",
     "gulp": "*",
+    "gulp-install": "^0.6.0",
     "pegjs": "*",
     "webpack-stream": "^3.1.0"
   },
