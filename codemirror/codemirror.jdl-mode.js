@@ -65,6 +65,10 @@
                 stream.eatWhile(/\w/);
                 return 'attribute';
             }
+            if (ch == '@' && stream.match(/([a-zA-Z]*[A-Z0-9_]*)(\(.*\))?/)) {
+                stream.skipToEnd()
+                return "annotation";
+            }
             if (delimiters.some(function (c){ return stream.eat(c) }))
                 return 'bracket'
 

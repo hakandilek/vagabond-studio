@@ -27,7 +27,7 @@ $(function (){
 
 	var editor = CodeMirror.fromTextArea(textarea, {
 		lineNumbers: true,
-		mode: 'jdl',
+		mode: 'vag',
 		matchBrackets: true,
 		autoCloseBrackets: true,
 		theme: 'solarized dark',
@@ -205,7 +205,7 @@ $(function (){
 	}
 
 	function buildStorage(locationHash){
-		var key = 'jdlstudio.lastSource'
+		var key = 'vagstudio.lastSource'
 		if (locationHash.substring(0,6) === '#view/')
 		return {
 			read: function (){ return urlDecode(locationHash.substring(6)) },
