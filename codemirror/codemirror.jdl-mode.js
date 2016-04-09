@@ -9,7 +9,7 @@
     serviceKws = ['serviceClass', 'serviceImpl'],
     typeKws = ['String', 'Integer', 'Long', 'BigDecimal', 'Float', 'Double', 'Boolean', 'LocalDate', 'ZonedDateTime', 'Blob', 'AnyBlob', 'ImageBlob'];
 
-    CodeMirror.defineMode('jdl', function() {
+    CodeMirror.defineMode('vag', function() {
         var words = {};
         function define(style, list) {
             for(var i = 0; i < list.length; i++) {

@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="A tool for drawing sassy UML diagrams based on JDL syntax. Provides instant feedback and has a customizable styling.">
+<meta name="description" content="A tool for drawing sassy UML diagrams based on Vagabond syntax. Provides instant feedback and has a customizable styling.">
 <!-- Chrome, Firefox OS and Opera -->
 <meta name="theme-color" content="#282C34">
 <!-- Windows Phone -->
 <meta name="msapplication-navbutton-color" content="#282C34">
 <!-- iOS Safari -->
 <meta name="apple-mobile-web-app-status-bar-style" content="#282C34">
-<title>JDL-Studio</title>
+<title>Vagabond-Studio</title>
 <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
 <link rel="stylesheet" href="lib/magnific-popup.css">
 <link rel="stylesheet" href="codemirror/codemirror.css">
@@ -25,10 +25,10 @@
 		<header>
 			<div class="tools left">
 				<a href="https://jhipster.github.io" title="JHipster website" target="_blank"><img class="jhi-logo" src="img/logo-jhipster.png"></a>
-				<a class="logo" href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About JDL-Studio"><h1>JDL-Studio</h1> &nbsp;</a>
+				<a class="logo" href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About Vagabond-Studio"><h1>Vagabond-Studio</h1> &nbsp;</a>
 			</div>
 			<div class="tools">
-				<a href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About JDL-Studio">
+				<a href="javascript:void(0)" onclick="app.toggleSidebar('about')" title="About Vagabond-Studio">
 					<i class="lnr lnr-question-circle"></i>
 				</a>
 				<a href="javascript:void(0)" onclick="app.toggleSidebar('reference')" title="Language reference">
@@ -173,10 +173,10 @@ relationship &lt;type&gt; {
 
 		<div id="about" class="sidebar">
 			<div class="content">
-				<p>Hello, this is JDL-Studio, a tool for drawing <a target="_blank" href="https://jhipster.github.io">JHipster</a> JDL diagrams based on the <a target="_blank" href="https://jhipster.github.io/jhipster-uml/#jdl">JDL syntax</a>.
+				<p>Hello, this is Vagabond-Studio, a tool for drawing <a target="_blank" href="https://jhipster.github.io">JHipster</a> JDL diagrams based on the <a target="_blank" href="https://jhipster.github.io/jhipster-uml/#jdl">JDL syntax</a>.
 				<p>Try and edit the code on the left and watch the diagram change. Any changes are saved to the browser's <i>localStorage</i>, so your diagram should be here the next time, (but no guarantees).</p>
-				<p>Created by <a href="mailto:daniel.kallin@gmail.com">Deepu KS</a> and hosted on <a href="https://github.com/jhipster/jdl-studio" target="_blank">GitHub</a> with <i class="lnr lnr-heart"></i>.</p>
-				<p>JDL-Studio was made possible by the cool project <a target="_blank" href="https://github.com/skanaar/nomnoml">nomnoml</a> by <a target="_blank" href="https://github.com/skanaar">Daniel Kallin</a> and also
+				<p>Created by <a href="mailto:daniel.kallin@gmail.com">Deepu KS</a> and hosted on <a href="https://getvagabond.github.io/vagabond-studio" target="_blank">GitHub</a> with <i class="lnr lnr-heart"></i>.</p>
+				<p>Vagabond-Studio was made possible by the cool project <a target="_blank" href="https://github.com/skanaar/nomnoml">nomnoml</a> by <a target="_blank" href="https://github.com/skanaar">Daniel Kallin</a> and also
 				<a target="_blank" href="http://pegjs.org/">peg.js</a>,
 				<a target="_blank" href="https://github.com/cpettitt/dagre">dagre</a>,
 				<a target="_blank" href="http://lodash.com">lodash</a>,
@@ -234,14 +234,14 @@ relationship &lt;type&gt; {
 		<button class="btn" onclick="app.dismissDialog()">No</button>
 	</div>
 	<div id="upload-dialog" class="mag-dialog zoom-anim-dialog mfp-hide">
-		<h1>Import JDL</h1>
+		<h1>Import VAG</h1>
 		<p>Select a <code>.jh</code> or <code>.txt</code> file</p>
-		<input class="upload" accept=".jh,.txt" type="file" id="jdlFileInput" /><br>
+		<input class="upload" accept=".vag,.vg,.txt" type="file" id="jdlFileInput" /><br>
 		<button class="btn" onclick="app.importJDL()">Import</button>
 		<button class="btn" onclick="app.dismissDialog()">Dismiss</button>
 	</div>
 
-	<script type="text/vnd.jdl.class" id="defaultGraph">entity Department {
+	<script type="text/vnd.vag.class" id="defaultGraph">entity Department {
   Long departmentId
   String departmentName required
 }

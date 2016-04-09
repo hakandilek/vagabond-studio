@@ -1,15 +1,15 @@
 {
-  "name": "jdl-studio",
+  "name": "vagabond-studio",
   "version": "0.0.3",
   "private": true,
-  "description": "A UML visual editor for JHipster JDL",
-  "homepage": "https://jhipster.github.io/jdl-studio/",
-  "author": "Deepu KS <d4udts@gmail.com>",
+  "description": "A UML visual editor for Vagabond VAG",
+  "homepage": "https://getvagabond.github.io/vagabond-studio",
+  "author": "Hakan Dilek <hakandilek-at-gmail-dot-com>",
   "license": "MIT",
   "keywords": [
     "uml",
-    "jdl",
-    "jhipster"
+    "vag",
+    "vagabond"
   ],
   "dependencies": {
     "jison": "^0.4.17",
@@ -32,6 +32,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jhipster/jdl-studio.git"
+    "url": "https://github.com/hakandilek/vagabond-studio.git"
   }
 }

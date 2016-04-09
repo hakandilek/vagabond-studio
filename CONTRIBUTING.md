@@ -1,4 +1,4 @@
-# Contributing to JDL-Studio
+# Contributing to Vagabond-Studio
 
 To start contributing you will need to fork the repo on github and clone it first.
 

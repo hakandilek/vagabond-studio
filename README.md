@@ -1,12 +1,12 @@
-JDL-Studio
+Vagabond-Studio
 =======
 
-Hello, this is [JDL-Studio](https://jhipster.github.io/jdl-studio/), a tool for drawing UML diagrams for [JHipster](https://jhipster.github.io) based on the [JDL syntax](https://jhipster.github.io/jhipster-uml/#jdl). It tries to keep its syntax visually as close as possible to the generated UML diagram without resorting to ASCII drawings.
+Hello, this is [Vagabond-Studio](https://jhipster.github.io/jdl-studio/), a tool for drawing UML diagrams for [Vagabond](https://getvagabond.github.io) based on the [VAG syntax](https://getvagabond.github.io/vagabond-uml). It tries to keep its syntax visually as close as possible to the generated UML diagram without resorting to ASCII drawings.
 
-Created by [Deepu KS](https://github.com/deepu105). Heavily inspired and adapted from  [nomnoml](https://github.com/skanaar/nomnoml)
+Created by [Hakan Dilek](https://github.com/hakandilek). Heavily inspired and adapted from  [JDL-Studio](https://jhipster.github.io/jdl-studio/)
 
-### JDL-Studio was made possible by these cool projects
-
+### Vagabond-Studio was made possible by these cool projects
+- [JDL-Studio](https://jhipster.github.io/jdl-studio/)
 - [nomnoml](https://github.com/skanaar/nomnoml)
 - [dagre](https://github.com/cpettitt/dagre)
 - [lodash](http://lodash.com)
@@ -18,7 +18,7 @@ Created by [Deepu KS](https://github.com/deepu105). Heavily inspired and adapted
 
 ## Web application
 
-The JDL-Studio web application is a simple editor with a live preview. It is purely client side and changes are saved to the browser's _localStorage_, so your diagram should be here the next time, (but no guarantees).
+The Vagabond-Studio web application is a simple editor with a live preview. It is purely client side and changes are saved to the browser's _localStorage_, so your diagram should be here the next time, (but no guarantees).
 
 ### Interaction
 
@@ -26,7 +26,7 @@ The canvas can be panned and zoomed by dragging and scrolling in the right hand 
 
 ### syntax
 
-refer [JDL syntax](https://jhipster.github.io/jhipster-uml/#jdl)
+refer [Vagabond syntax](https://getvagabond.github.io/vagabond-uml/)
 
 ### Directives
 

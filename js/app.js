@@ -170,8 +170,8 @@ $(function (){
 
 		if(!f) {
 			alert("Failed to load file")
-		} else if (!f.type.match('text.*') && !f.name.endsWith('.vag')) {
-			alert(f.name + " is not a valid JDL or text file.")
+		} else if (!f.type.match('text.*') && !f.name.endsWith('.vag') && !f.name.endsWith('.vg')) {
+			alert(f.name + " is not a valid VAG or text file.")
 		} else {
 			var r = new FileReader()
 			r.onload = function(e) {
@@ -186,8 +186,8 @@ $(function (){
 			}
 			r.readAsText(f)
 		}
-		ga('send', 'event', 'JDL File', 'upload', 'JDL File upload');
-		ga('jdlTracker.send', 'event', 'JDL File', 'upload', 'JDL File upload');
+		ga('send', 'event', 'VAG File', 'upload', 'VAG File upload');
+		ga('jdlTracker.send', 'event', 'VAG File', 'upload', 'VAG File upload');
 	}
 
 	// Adapted from http://meyerweb.com/eric/tools/dencoder/
@@ -229,8 +229,8 @@ $(function (){
 		function downloadImage(){
 			var url = canvasElement.toDataURL('image/png')
 			link.href = url;
-			ga('send', 'event', 'JDL Image', 'download', 'JDL Image download');
-			ga('jdlTracker.send', 'event', 'JDL Image', 'download', 'JDL Image download');
+			ga('send', 'event', 'VAG Image', 'download', 'VAG Image download');
+			ga('jdlTracker.send', 'event', 'VAG Image', 'download', 'VAG Image download');
 		}
 	}
 
@@ -243,8 +243,8 @@ $(function (){
 			if (URL != null) {
 				link.href = window.URL.createObjectURL(textFileAsBlob)
 			}
-			ga('send', 'event', 'JDL File', 'download', 'JDL File download');
-			ga('jdlTracker.send', 'event', 'JDL File', 'download', 'JDL File download');
+			ga('send', 'event', 'VAG File', 'download', 'VAG File download');
+			ga('jdlTracker.send', 'event', 'VAG File', 'download', 'VAG File download');
 		}
 	}
 
