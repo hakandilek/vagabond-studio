@@ -24,7 +24,7 @@
     "webpack-stream": "^3.1.0"
   },
   "scripts": {
-    "prepublish": "node build.js & pegjs js/grammar.txt js/vagGrammar.js",
+    "prepublish": "pegjs js/grammar.txt js/vagGrammar.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "directories": {

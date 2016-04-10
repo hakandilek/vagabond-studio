@@ -2,10 +2,16 @@ var nomnoml = nomnoml || {}
 
 nomnoml.Classifier = function (type, name, compartments){
 	if (type === 'ENUM'){
-		var enumLabel = _.cloneDeep(compartments[0]),
+		var lbl = _.cloneDeep(compartments[0]),
 		label = '<<enumeration>>'
-		enumLabel.lines[0] = label
-		compartments.unshift(enumLabel)
+		lbl.lines[0] = label
+		compartments.unshift(lbl)
+	}
+	if (type === 'SERVICE'){
+		var lbl = _.cloneDeep(compartments[0]),
+		label = '<<service>>'
+		lbl.lines[0] = label
+		compartments.unshift(lbl)
 	}
 	return {
         type: type,

@@ -63,19 +63,27 @@ nomnoml.convertToNomnoml = function(JDLObj){
 				return '1-*'
 		}
 	}
-	var setParts = function (entity, isEnum) {
+	var setParts = function (entity, type) {
 		var attrs = []
-		if(isEnum){
-			_.each(entity.values, function (a) {
-				attrs.push(a)
-			})
+		if('SERVICE' === type){
+      _.each(entity.body, function(m) {
+        var params = [];
+        _.each(m.parameters, function(p) {
+          params.push(p.name + ': ' + p.type);
+        })
+				attrs.push(m.name + '(' + params.join(', ') + '): ' + m.type)
+      })
+    } else if ('ENUM' === type) {
+      _.each(entity.values, function(a) {
+        attrs.push(a)
+      })
 		} else {
 			_.each(entity.body, function (a) {
 				attrs.push(a.name + ': ' + a.type + (isRequired(a.validations) ? '*' : ''))
 			})
 		}
 		return {
-			type: isEnum ? 'ENUM' : 'CLASS',
+			type: type,
 			id: entity.name,
 			parts:[
 				[entity.name],
@@ -85,7 +93,7 @@ nomnoml.convertToNomnoml = function(JDLObj){
 	}
 	_.each(JDLObj.enums, function (p){
 		if (p.name){ // is an enum
-			var part = setParts(p, true)
+			var part = setParts(p, 'ENUM')
 			parts.push(part)
 			enumParts.push(part)
 		}
@@ -93,7 +101,7 @@ nomnoml.convertToNomnoml = function(JDLObj){
 
 	_.each(JDLObj.entities, function (p){
 		if (p.name){ // is a classifier
-			var part = setParts(p)
+			var part = setParts(p, 'CLASS')
 			parts.push(part)
 			_.each(p.body, function (a) {
 				setEnumRelation(a, part)
@@ -101,7 +109,17 @@ nomnoml.convertToNomnoml = function(JDLObj){
 		}
 	})
 
-	_.each(JDLObj.relationships, function (p){
+	_.each(JDLObj.services, function (p){
+		if (p.name){ // is a service
+			var part = setParts(p, 'SERVICE')
+			parts.push(part)
+			_.each(p.body, function (a) {
+				setEnumRelation(a, part)
+			})
+		}
+	})
+
+  _.each(JDLObj.relationships, function(p) {
 		parts.push({
 			assoc: '->',
 			start: setParts(p.from),

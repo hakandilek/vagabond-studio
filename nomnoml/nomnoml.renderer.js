@@ -31,9 +31,10 @@ nomnoml.render = function (graphics, config, compartment, setFont){
 	}
 
 	function textStyle(node, line){
-		if (node.type !== 'ENUM' && line > 0 || line > 1) return {}
+		if (node.type !== 'ENUM' && node.type !== 'SERVICE' && line > 0 || line > 1) return {}
 		return {
 			CLASS: { bold: true, center: true },
+			SERVICE: { bold: true, center: true },
 			ENUM: { bold: true, center: true },
 			LABEL: {},
 			INSTANCE: { center: true, underline: true },
@@ -59,7 +60,10 @@ nomnoml.render = function (graphics, config, compartment, setFont){
 		var y = Math.round(node.y-node.height/2)
 		var xCenter = x + node.width/2
 		var shade = config.fill[level] || _.last(config.fill)
-		g.ctx.fillStyle = shade
+    g.ctx.fillStyle = shade
+    if (config[node.type] && config[node.type].stroke) {
+      g.ctx.fillStyle = config[node.type].stroke;
+    }
 		if (node.type === 'NOTE'){
 			g.circuit([
 				{x: x, y: y},

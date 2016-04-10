@@ -7,55 +7,118 @@
 
 {
   function concat(array1, array2){
-    Array.prototype.push.apply(array1, array2);
+    if (array2) {
+      Array.prototype.push.apply(array1, array2);
+    }
     return array1;
+  }
+
+  function flattenArray(array) {
+    var newArray = [];
+
+    array.forEach(function(element) {
+      if (!element.length) {
+        newArray.push(element);
+      } else {
+        element.forEach(function(internalElement) {
+          newArray.push(internalElement);
+        });
+      }
+    });
+    
+    return newArray;
   }
 
   function makeString(o) {
     return o.join("");
   }
+  
+  function addCardinalityToRelationships(cardinality, relationships) {
+    if (!relationships) {
+      return;
+    }
+    relationships.forEach(function(relationship) {
+      relationship.cardinality = cardinality;
+    });
+  }
+  
   var entities = [];
   var relationships = [];
   var enums = [];
-  var dto = {};
   var pagination = {};
-  var service = {};
+  var services = {};
 }
 
 start = p:prog { return p; }
   
 prog
-  = space* ed:entityDecl space* p:prog {return {"entities" : concat([ed],p.entities) , "relationships" : p.relationships, "enums" : p.enums, "dto": p.dto, "pagination": p.pagination, "service": service};}
-  / space* rd:relationDecl space* p:prog {return {"entities" : p.entities, "relationships" : concat([rd],p.relationships), "enums" : p.enums, "dto": p.dto, "pagination": p.pagination, "service": service};}
-  / space* end:enumDecl space* p:prog {return {"entities" : p.entities, "relationships" : p.relationships, "enums": concat([end], p.enums), "dto": p.dto, "pagination": p.pagination, "service": service};}
-  / space* dto:dtoDecl space* p:prog {return {"entities": p.entities, "relationships": p.relationships, "enums": p.enums, "dto": p.dto, "pagination": p.pagination, "service": service};}
-  / space* pagination:pagiDecl space* p:prog {return {"entities" : p.entities, "relationships" : p.relationships, "enums": p.enums, "dto": p.dto, "pagination": p.pagination, "service": service};}
-  / space* service:serviceDecl space* p:prog {return {"entities" : p.entities, "relationships" : p.relationships, "enums": p.enums, "dto": p.dto, "pagination": p.pagination, "service": service};}
-  / space* Comment space* p:prog {return {"entities" : p.entities,"relationships": p.relationships, "enums": p.enums, "dto": p.dto, "pagination": p.pagination, "service": service};}
-  / space* JDLComment space* p:prog {return {"entities" : p.entities,"relationships": p.relationships, "enums": p.enums, "dto": p.dto, "pagination": p.pagination, "service": service};}
-  / "" {return {"entities" : entities,"relationships": relationships, "enums": enums, "dto": dto, "pagination": pagination, "service": service};}                                                                 
+  = space* ed:entityDecl space* p:prog {return {"entities" : concat([ed],p.entities) , "relationships" : p.relationships, "enums" : p.enums, "services": p.services};}
+  / space* rd:relationDecl space* p:prog {return {"entities" : p.entities, "relationships" : flattenArray(concat([rd],p.relationships)), "enums" : p.enums, "services": p.services};}
+  / space* end:enumDecl space* p:prog {return {"entities" : p.entities, "relationships" : p.relationships, "enums": concat([end], p.enums), "services": p.services};}
+  / space* service:serviceDecl space* p:prog {return {"entities" : p.entities, "relationships" : p.relationships, "enums": p.enums, "services": concat([service], p.services)};}
+  / space* Comment space* p:prog {return {"entities" : p.entities,"relationships": p.relationships, "enums": p.enums, "services": p.services};}
+  / space* JDLComment space* p:prog {return {"entities" : p.entities,"relationships": p.relationships, "enums": p.enums, "services": p.services};}
+  / "" {return {"entities" : entities,"relationships": relationships, "enums": enums, "services": services};}
 
 //Entities
 entityDecl
-  = jd:Comment? space* JDLComment? space* "entity" space* e:ENTITYNAME space* eb:entityBody? space* JDLComment? {return {"name" : e, "body":eb, "javadoc":jd};}
-  / "entity" space* e:ENTITYNAME space* eb:entityBody? {return {"name" : e, "body":eb, "javadoc":""};}           
+  = jd:Comment? space* JDLComment? space* ann:annotationList? space* "entity" space* e:ENTITYNAME space* eb:entityBody? space* JDLComment? {return {"name" : e, "body":eb, "javadoc":jd, "annotations":ann};}
+  / ann:annotationList? space* "entity" space* e:ENTITYNAME space* eb:entityBody? {return {"name" : e, "body":eb, "javadoc":"", "annotations":ann};}           
  
 entityBody
   = "{" space* JDLComment? space* fdl:fieldDeclList space* JDLComment? space* "}" {return fdl;}
   / "" {return [];}
 
 fieldDeclList
-  = JDLComment? space* com:Comment? space* JDLComment? space* f:FIELDNAME space t:type space* vl:validationList? space* ","? space* JDLComment? space* fdl:fieldDeclList {return concat([{"name" : f, "type" : t, "validations" : vl, "javadoc": com}], fdl );}
-  / com:Comment? space* f:FIELDNAME space t:type space* vl:validationList {return [{"name" : f, "type" : t, "validations" : vl, "javadoc": com}];}
+  = JDLComment? space* com:Comment? space* JDLComment? space* t:type space* f:FIELDNAME space* vl:validationList? space* ","? space* JDLComment? space* fdl:fieldDeclList {return concat([{"name" : f, "type" : t, "validations" : vl, "javadoc": com}], fdl );}
+  / com:Comment? space* t:type space* f:FIELDNAME space* vl:validationList {return [{"name" : f, "type" : t, "validations" : vl, "javadoc": com}];}
   / "" {return [];}                                                
 
 validationList
   = v:validation space* vl:validationList {return concat([v], vl);}                                    
   / "" {return [];}
 
+//Annotations
+
+annotationList
+  = a:annotation space* al:annotationList {return concat([a], al);}                                    
+  / "" {return [];}
+
+annotation
+  = jd:Comment? space* JDLComment? space* "@" n:ANNOTATIONNAME space* p:annotationBody space* JDLComment? {
+    return {"name" : n, "parameters":p, "javadoc":jd};
+  }
+  / "@" n:ANNOTATIONNAME space* p:annotationBody? {
+    return {"name" : n, "parameters":p, "javadoc":""};
+  }
+
+annotationBody
+  = "(" space* apl:annotationParameterList space* ")" {
+    return apl;
+  }
+  / "(" space* ")" {
+    return [];
+  }
+  / "" {
+    return [];
+  }
+
+annotationParameterList
+  = ap:annotationParameter space* "," space* apl:annotationParameterList {return concat([ap], apl);}                                    
+  / ap:annotationParameter {return [ap];}                                    
+  / "" {return [];}
+
+annotationParameter
+  = n:ANNOTATIONPARAMNAME space* "=" space* v:ANNOTATIONPARAMVALUE { return { "name" : n, "value" : v }; }
+  / n:ANNOTATIONPARAMNAME { return { "name" : n, "value" : true }; }
+
 //Relationship
 relationDecl
-  = 'relationship' space rt:relationshipType space* "{" space* JDLComment? space* rb:relationshipBody space* "}" {rb.cardinality = rt; return rb;}  
+  = 'relationship' space rt:relationshipType space* "{" space* JDLComment? space* rb:relationshipBody space* subrb:subRelationshipBodies? "}" {rb.cardinality = rt; addCardinalityToRelationships(rt, subrb); return concat([rb], subrb);}  
+
+subRelationshipBodies
+  = ','? space* rb:relationshipBody space* morerb:subRelationshipBodies? { return concat([rb], morerb); }
+  / ','? space* rb:relationshipBody { return rb; }
 
 relationshipBody
   = from:relationshipSide space* JDLComment? space* "to" space* JDLComment? space* to:relationshipSide space* JDLComment? {return {"from" : from , "to" : to};}
@@ -81,36 +144,37 @@ exclusionSub
   = e:ENTITYNAME space* ',' space* sub:exclusionSub {return concat([e], sub);}
   / e:ENTITYNAME {return [e];}
 
-// DTO
-dtoDecl
-  = 'dto' space+ decl:subDtoDecl space* ex:exclusion? space* JDLComment? { dto[decl[decl.length - 1]] = {list: decl.slice(0, decl.length-1), excluded: ex === null ? [] : ex}; }
-
-subDtoDecl
- = e:ENTITYNAME space* ',' space* sub:subDtoDecl {return concat([e], sub);}
- / '*' space* 'with' space* method:([A-z-]+) {return ['*', method.toString().replace(/,/g,'')];}
- / 'all' space* 'with' space* method:([A-z-]+) {return ['*', method.toString().replace(/,/g,'')];}
- / e:ENTITYNAME space* 'with' space* method:([A-z-]+) {return [e, method.toString().replace(/,/g,'')];}
-
-// Pagination
-pagiDecl
-  = 'paginate' space+ decl:subPagiDecl space* ex:exclusion? space* JDLComment? { pagination[decl[decl.length - 1]] = {list: decl.slice(0, decl.length-1), excluded: ex === null ? [] : ex}; }
-
-subPagiDecl
-  = e:ENTITYNAME space* ',' space* sub:subPagiDecl {return concat([e], sub);}
-  / '*' space* 'with' space* method:([A-z-]+) {return ['*', method.toString().replace(/,/g,'')];}
-  / 'all' space* 'with' space* method:([A-z-]+) {return ['*', method.toString().replace(/,/g,'')];}
-  / e:ENTITYNAME space* 'with' space* method:([A-z-]+) {return [e, method.toString().replace(/,/g,'')];}
-
 // Service
 serviceDecl
-  = 'service' space+ decl:subServiceDecl space* ex:exclusion? space* JDLComment? { service[decl[decl.length - 1]] = {list: decl.slice(0, decl.length-1), excluded: ex === null ? [] : ex}; }
+  = jd:Comment? space* JDLComment? space* "service" space* s:SERVICENAME space* sb:serviceBody? space* JDLComment? {
+    return {"name" : s, "body":sb, "javadoc":jd};
+  }
+  / "service" space* s:SERVICENAME space* sb:serviceBody? {
+    return {"name" : s, "body":sb, "javadoc":""};
+  }
 
-subServiceDecl
-  = e:ENTITYNAME space* ',' space* sub:subServiceDecl {return concat([e], sub);}
-  / '*' space* 'with' space* method:([A-z-]+) {return ['*', method.toString().replace(/,/g,'')];}
-  / 'all' space* 'with' space* method:([A-z-]+) {return ['*', method.toString().replace(/,/g,'')];}
-  / e:ENTITYNAME space* 'with' space* method:([A-z-]+) {return [e, method.toString().replace(/,/g,'')];}
+serviceBody
+  = "{" space* JDLComment? space* mdl:methodDeclList space* JDLComment? space* "}" {return mdl;}
+  / "" {return [];}
 
+methodDeclList
+  = JDLComment? space* com:Comment? space* JDLComment? space* t:type space* mn:METHODNAME space* "(" space* pl:parameterList? space* ")" mdl:methodDeclList {
+    return concat([{"name" : mn, "type" : t, "parameters" : pl, "javadoc": com}], mdl );
+  }
+  / com:Comment? space* t:type space* mn:METHODNAME space* "(" space* pl:parameterList? space* ")" {
+    return [{"name" : mn, "type" : t, "parameters" : pl, "javadoc": com}];
+  }
+  / "" {return [];}                                                
+
+parameterList
+  = p:parameter space* "," space* pl:parameterList {return concat([p], pl);}                                    
+  / p:parameter {return [p];}                                    
+  / "" {return [];}
+
+parameter
+  = t:type space* pn:PARAMETERNAME {
+    return { "name": pn, "type": t };
+  }                                    
 
 relationshipType = "OneToOne" {return "one-to-one";} / "OneToMany" {return "one-to-many";} / "ManyToOne" {return "many-to-one";} / "ManyToMany" {return "many-to-many";}
 
@@ -126,10 +190,8 @@ validation
   / "min" space* "(" space* int:INTEGER space* ")" {return {key:'min', value:int};}
   / "pattern" space* "("  apostrophe regexp:REGEXP  apostrophe space* ")" {return {key:'pattern' , value:regexp};}
 
-
-
 apostrophe "apostrophe"
-  = a:["|']                    
+  = a:["|']
 
 REGEXP "a regular expression" 
   = word:[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':\\|,.<>\/? ]* {return makeString(word);}
@@ -138,7 +200,10 @@ ENUMNAME "an enum name"
   = head:[A-Z]tail:[a-zA-Z0-9]* {return makeString(concat([head],tail));}
 
 ENUMPROP "an enum property"
-  = underscore:[_]*head:[A-Z0-9]tail:[A-Z0-9_]* {return makeString(concat(concat(underscore,[head]), tail));}
+  = underscore:[_]*head:[A-Z0-9]tail:[A-Z0-9_]* {
+    var prop = makeString(concat(concat(underscore,[head]), tail));
+    return prop;
+  }
 
 INTEGER "integer"
   = int:[0-9]+ {return parseInt(int.join(""), 10);} 
@@ -151,6 +216,25 @@ ENTITYNAME "an entity name"
 
 FIELDNAME "a field name"
   = head:[a-zA-Z]tail:[a-zA-Z0-9]* {return makeString(concat([head],tail));}               
+
+SERVICENAME "a service name"  
+  = head:[A-Z]tail:[a-zA-Z0-9]* {return makeString(concat([head],tail));}
+
+METHODNAME "a method name"
+  = head:[a-zA-Z]tail:[a-zA-Z0-9]* {return makeString(concat([head],tail));}               
+
+PARAMETERNAME "a parameter name"
+  = head:[a-zA-Z]tail:[a-zA-Z0-9]* {return makeString(concat([head],tail));}               
+
+ANNOTATIONNAME "an annotation name"  
+  = head:[a-zA-Z]tail:[a-zA-Z0-9]* {return makeString(concat([head],tail));}
+
+ANNOTATIONPARAMNAME "an annotation parameter name"  
+  = head:[a-zA-Z]tail:[a-zA-Z0-9\-_]* {return makeString(concat([head],tail));}
+
+ANNOTATIONPARAMVALUE "an annotation parameter value"  
+  = v:Literal { return v; }
+  / v:ENUMPROP { return v; }
 
 space "a space"
   = space:['\n'|'\t'|'\r'|' '|\u2028|\u2029]+ 
@@ -167,3 +251,105 @@ ComStop = [*]+ "/"
 JDLComment = "//" [^\n\r]*
 
 Not_Com = (!ComStop !ComStart char:.) {return char;}
+
+/********************     LITERALS           **********************************/
+Literal
+  = NullLiteral
+  / BooleanLiteral
+  / NumericLiteral
+  / StringLiteral
+
+NullLiteral
+  = NullToken { return null; }
+
+BooleanLiteral
+  = TrueToken  { return true; }
+  / FalseToken { return false; }
+
+NumericLiteral "number"
+  = literal:HexIntegerLiteral {
+      return literal;
+    }
+  / literal:DecimalLiteral {
+      return literal;
+    }
+
+DecimalLiteral
+  = DecimalIntegerLiteral "." DecimalDigit* ExponentPart? {
+      var literal = parseFloat(text());
+      return literal;
+    }
+  / "." DecimalDigit+ ExponentPart? {
+      var literal = parseFloat(text());
+      return literal;
+    }
+  / DecimalIntegerLiteral ExponentPart? {
+      var literal = parseFloat(text());
+      return literal;
+    }
+
+DecimalIntegerLiteral
+  = "0"
+  / NonZeroDigit DecimalDigit*
+
+DecimalDigit
+  = [0-9]
+
+NonZeroDigit
+  = [1-9]
+
+ExponentPart
+  = ExponentIndicator SignedInteger
+  
+ExponentIndicator
+  = "e"i
+
+SignedInteger
+  = [+-]? DecimalDigit+
+
+HexIntegerLiteral
+  = "0x"i digits:$HexDigit+ {
+      return parseInt(digits, 16);
+     }
+
+HexDigit
+  = [0-9a-f]i
+
+StringLiteral "string"
+  = '"' chars:char* '"' {
+      var literal = chars.join("");
+      return literal;
+    }
+  / "'" chars:char* "'" {
+      var literal = chars.join("");
+      return literal;
+    }
+
+char
+  = unescaped
+  / escape
+    sequence:(
+        '"'
+      / "\\"
+      / "/"
+      / "b" { return "\b"; }
+      / "f" { return "\f"; }
+      / "n" { return "\n"; }
+      / "r" { return "\r"; }
+      / "t" { return "\t"; }
+      / "u" digits:$(HEXDIG HEXDIG HEXDIG HEXDIG) {
+          return String.fromCharCode(parseInt(digits, 16));
+        }
+    )
+    { return sequence; }
+
+escape         = "\\"
+unescaped      = [^\0-\x1F\x22\x5C]
+
+/* See RFC 4234, Appendix B (http://tools.ietf.org/html/rfc4627). */
+DIGIT  = [0-9]
+HEXDIG = [0-9a-f]i
+
+NullToken       = "null"       
+TrueToken       = "true"       
+FalseToken      = "false"      

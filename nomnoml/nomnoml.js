@@ -18,10 +18,13 @@ var nomnoml = nomnoml || {};
 			leading: (+d.leading) || 1.25,
 			lineWidth: (+d.lineWidth) || 2,
 			padding: (+d.padding) || 8,
-			spacing: (+d.spacing) || 70,
+			spacing: (+d.spacing) || 70, 
 			stroke: d.stroke || '#aaaaaa',
-			title: d.title || 'jhipster-jdl',
-			zoom: +d.zoom || 1
+			title: d.title || 'vagabond-studio',
+      zoom: +d.zoom || 1,
+      ENUM :    { stroke : '#1F384C' },
+      CLASS :   { stroke : '#442A4C' },
+      SERVICE : { stroke : '#2A2D4C' }
 		};
 	}
 

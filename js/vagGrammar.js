@@ -37,13 +37,13 @@ module.exports = (function() {
         peg$startRuleFunction  = peg$parsestart,
 
         peg$c0 = function(p) { return p; },
-        peg$c1 = function(ed, p) {return {"entities" : concat([ed],p.entities) , "relationships" : p.relationships, "enums" : p.enums, "service": service};},
-        peg$c2 = function(rd, p) {return {"entities" : p.entities, "relationships" : flattenArray(concat([rd],p.relationships)), "enums" : p.enums, "service": service};},
-        peg$c3 = function(end, p) {return {"entities" : p.entities, "relationships" : p.relationships, "enums": concat([end], p.enums), "service": service};},
-        peg$c4 = function(service, p) {return {"entities" : p.entities, "relationships" : p.relationships, "enums": p.enums, "service": service};},
-        peg$c5 = function(p) {return {"entities" : p.entities,"relationships": p.relationships, "enums": p.enums, "service": service};},
+        peg$c1 = function(ed, p) {return {"entities" : concat([ed],p.entities) , "relationships" : p.relationships, "enums" : p.enums, "services": p.services};},
+        peg$c2 = function(rd, p) {return {"entities" : p.entities, "relationships" : flattenArray(concat([rd],p.relationships)), "enums" : p.enums, "services": p.services};},
+        peg$c3 = function(end, p) {return {"entities" : p.entities, "relationships" : p.relationships, "enums": concat([end], p.enums), "services": p.services};},
+        peg$c4 = function(service, p) {return {"entities" : p.entities, "relationships" : p.relationships, "enums": p.enums, "services": concat([service], p.services)};},
+        peg$c5 = function(p) {return {"entities" : p.entities,"relationships": p.relationships, "enums": p.enums, "services": p.services};},
         peg$c6 = "",
-        peg$c7 = function() {return {"entities" : entities,"relationships": relationships, "enums": enums, "service": service};},
+        peg$c7 = function() {return {"entities" : entities,"relationships": relationships, "enums": enums, "services": services};},
         peg$c8 = "entity",
         peg$c9 = { type: "literal", value: "entity", description: "\"entity\"" },
         peg$c10 = function(jd, ann, e, eb) {return {"name" : e, "body":eb, "javadoc":jd, "annotations":ann};},
@@ -5846,7 +5846,7 @@ module.exports = (function() {
       var relationships = [];
       var enums = [];
       var pagination = {};
-      var service = {};
+      var services = {};
 
 
     peg$result = peg$startRuleFunction();
